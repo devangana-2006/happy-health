@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HAPPY HEALTH</title>
+    <style>
+        h1 {
+            text-align: center;
+            color: violet;
+            font-weight: bold;
+        }
+        p {
+            text-align: center;
+            font-style: italic;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        button {
+            background-color: violet;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        #waterProgress {
+            background-color: #ddd;
+            height: 20px;
+            border-radius: 10px;
+        }
+        #waterProgressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        .section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .recommendation {
+            margin-top: 10px;
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <h1>HAPPY HEALTH</h1>
+    <p>"The First Wealth is Health"</p>
+
+    <div class="container">
+        <!-- Sign Up Form -->
+        <form id="signupForm" class="section">
+            <h3 style="color: violet;">Sign Up</h3>
+            <div style="display: grid; gap: 15px;">
+                <div>
+                    <label for="userName">Username:</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div>
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+            </div>
+            <button type="submit" style="margin-top: 15px;">Sign Up</button>
+        </form>
+
+        <!-- Health Form (Initially Hidden) -->
+        <form id="healthForm" style="display: none;">
+            <!-- Physical Information -->
+            <div class="section">
+                <h3 style="color: violet;">Physical Information</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" required>
+                    </div>
+                    <div>
+                        <label for="gender">Gender:</label>
+                        <select id="gender" required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="weight">Weight (kg):</label>
+                        <input type="number" id="weight" step="0.1" required>
+                    </div>
+                    <div>
+                        <label for="height">Height (cm):</label>
+                        <input type="number" id="height" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Metrics -->
+            <div class="section">
+                <h3 style="color: violet;">Inner Health Information</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label for="bloodPressureSys">Blood Pressure (Systolic):</label>
+                        <input type="number" id="bloodPressureSys" required>
+                    </div>
+                    <div>
+                        <label for="bloodPressureDia">Blood Pressure (Diastolic):</label>
+                        <input type="number" id="bloodPressureDia" required>
+                    </div>
+                    <div>
+                        <label for="bloodSugar">Blood Sugar (mg/dL):</label>
+                        <input type="number" id="bloodSugar" required>
+                    </div>
+                    <div>
+                        <label for="cholesterol">Cholesterol (mg/dL):</label>
+                        <input type="number" id="cholesterol" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Water Intake -->
+            <div class="section">
+                <h3 style="color: violet;">Water Intake Information</h3>
+                <div>
+                    <label for="waterIntake">Daily Water Intake (liters):</label>
+                    <input type="number" id="waterIntake" step="0.1" required>
+                </div>
+                <div id="waterProgress" style="margin-top: 10px;">
+                    <div id="waterProgressBar"></div>
+                </div>
+            </div>
+
+            <button type="submit">Analyze Health & Get Recommendations</button>
+        </form>
+
+        <!-- Results -->
+        <div id="results" style="display: none; margin-top: 30px;"></div>
+    </div>
+
+    <script>
+        // Sign Up Form Handler
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Hide signup form and show health form
+            this.style.display = 'none';
+            document.getElementById('healthForm').style.display = 'block';
+        });
+
+        document.getElementById('healthForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Gather user inputs
+            const userData = {
+                name: document.getElementById('userName').value,
+                age: parseInt(document.getElementById('age').value),
+                gender: document.getElementById('gender').value,
+                weight: parseFloat(document.getElementById('weight').value),
+                height: parseFloat(document.getElementById('height').value),
+                bloodPressureSys: parseInt(document.getElementById('bloodPressureSys').value),
+                bloodPressureDia: parseInt(document.getElementById('bloodPressureDia').value),
+                bloodSugar: parseInt(document.getElementById('bloodSugar').value),
+                cholesterol: parseInt(document.getElementById('cholesterol').value),
+                waterIntake: parseFloat(document.getElementById('waterIntake').value)
+            };
+
+            // Analyze and display results
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <h2 style="color: violet; text-align: center;">Hello, ${userData.name}!</h2>
+                ${analyzeHealthMetrics(userData)}
+                ${generateWaterSummary(userData.waterIntake, calculateWaterIntake(userData.weight, userData.age))}
+                ${generateDietPlan(userData)}
+            `;
+        });
+
+        // Calculate water intake recommendation
+        function calculateWaterIntake(weight, age) {
+            return age < 50 ? weight * 0.035 : weight * 0.03;
+        }
+
+        // Analyze health metrics
+        function analyzeHealthMetrics({ age, bloodPressureSys, bloodPressureDia, bloodSugar, cholesterol }) {
+            let analysis = `<div class="recommendation"><h3>Health Analysis</h3>`;
+            analysis += bloodPressureSys > 130 || bloodPressureDia > 80
+                ? "<p>High blood pressure detected. Consider reducing salt intake and managing stress.</p>"
+                : "<p>Your blood pressure is within normal range.</p>";
+            analysis += bloodSugar > 125
+                ? "<p>High blood sugar levels detected. Avoid sugary foods and increase physical activity.</p>"
+                : "<p>Your blood sugar levels are normal.</p>";
+            analysis += cholesterol > 200
+                ? "<p>High cholesterol detected. Include more fiber-rich foods and avoid trans fats.</p>"
+                : "<p>Your cholesterol levels are healthy.</p>";
+            
+            if (age > 40) {
+                analysis += "<p>For your age group, we recommend a daily 4km walk to maintain cardiovascular health and overall fitness.</p>";
+            }
+            
+            return analysis + "</div>";
+        }
+
+        // Generate water summary
+        function generateWaterSummary(current, recommended) {
+            return `<div class="recommendation">
+                <h3>Water Intake</h3>
+                <p>You consume <strong>${current} liters</strong> of water daily.</p>
+                <p>Recommended daily intake: <strong>${recommended.toFixed(2)} liters</strong></p>
+                ${current < recommended 
+                    ? `<p>Try to increase your water intake by ${(recommended - current).toFixed(2)} liters.</p>`
+                    : `<p>Great job! You're meeting your daily water intake goals.</p>`}
+            </div>`;
+        }
+
+        // Generate diet plan
+        function generateDietPlan({ weight, height, age, gender }) {
+            const bmi = weight / Math.pow(height/100, 2);
+            let plan = `<div class="recommendation">
+                <h3>Diet Recommendations</h3>
+                <p>Your BMI: ${bmi.toFixed(1)} - `;
+            
+            if (bmi < 18.5) {
+                plan += `Underweight</p>
+                <p>Focus on nutrient-dense foods:</p>
+                <ul>
+                    <li>Protein-rich foods (eggs, lean meat, legumes)</li>
+                    <li>Healthy fats (nuts, avocados, olive oil)</li>
+                    <li>Whole grain carbohydrates</li>
+                </ul>`;
+            } else if (bmi < 25) {
+                plan += `Normal weight</p>
+                <p>Maintain a balanced diet:</p>
+                <ul>
+                    <li>Plenty of fruits and vegetables</li>
+                    <li>Lean proteins</li>
+                    <li>Whole grains</li>
+                    <li>Healthy fats in moderation</li>
+                </ul>`;
+            } else {
+                plan += `Overweight</p>
+                <p>Consider these dietary changes:</p>
+                <ul>
+                    <li>Increase fiber intake through vegetables</li>
+                    <li>Choose lean proteins</li>
+                    <li>Limit processed foods and sugars</li>
+                    <li>Control portion sizes</li>
+                </ul>`;
+            }
+            return plan + '</div>';
+        }
+
+        // Update water progress bar
+        document.getElementById('waterIntake').addEventListener('input', function(e) {
+            const intake = parseFloat(e.target.value);
+            const recommended = calculateWaterIntake(
+                parseFloat(document.getElementById('weight').value) || 70,
+                parseInt(document.getElementById('age').value) || 30
+            );
+            const percentage = Math.min((intake / recommended) * 100, 100);
+            document.getElementById('waterProgressBar').style.width = percentage + '%';
+        });
+    </script>
+</body>
+</html>
