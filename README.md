@@ -2,12 +2,12 @@
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: Binary Brains
 
 
 ### Team Members
-    - Member 1: [Name] - [College]
-    - Member 2: [Name] - [College]
+    - Member 1: Alifna M V - LBSCEK
+    - Member 2: Devangana D V - LBSCEK
      
 
 ### Hosted Project Link
